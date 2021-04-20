@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@700&display=swap');
+
+
+body{
+  background-color: #000;
+}
+.pt-10.bg-gray-900.sm\:pt-16.lg\:pt-8.lg\:pb-14.lg\:overflow-hidden {
+  background: #000;
+}
+
+.logoname{
+  font-family: 'Philosopher', sans-serif;
+  color: blue;
+}
+
+.logintitle, .registertitle{
+  color: #fff;
+}
+
+.logoname{
+  color: #ffffff;
+  font-size: 2.3rem;
+}
+
+.display-grid{
+  height: 500px;
+  background-color: #000;
+}
+
+.truncate{
+  white-space: normal;
+}
+
+.leftbg{
+  background-image: linear-gradient(to right, #000000, #0c070a, #130f14, #15151c, #141b24);
+}
+.rightbg{
+  background-image: linear-gradient(to right, #18222c, #191a22, #161318, #0f0a0d, #000000);
+}
+.g-tile{
+    width: 20px;
+}
+
+.img-div{
+  width: 903px;
+}
+.hero-image{
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 100%;
+  background-size: cover;
+  object-fit: cover;
+}
+
+.navtext{
+  color: #fff;
+}
+
+.loginapp{
+  display: flex;
+  justify-items: end;
+}
+
+.relative.p-6.flex-auto.grid.grid-cols-2.gap-3 {
+  height: 700px;
+}
+
+p.my-4.text-blueGray-500.text-lg.leading-relaxed {
+  height: 600px;
+}
+.newsletter.flex.justify-center.items-center.flex-col {
+  margin-top: 14%;
+}
+
+.mx-auto.max-w-md.px-4.sm\:max-w-2xl.sm\:px-6.lg\:max-w-none.lg\:px-0.img-div {
+  margin-bottom: 20%;
+}

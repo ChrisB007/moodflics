@@ -1,233 +1,127 @@
-import Head from 'next/head'
-import { connectToDatabase } from '../util/mongodb'
+import Head from 'next/head';
+import React from 'react';
+import {signIn, signOut, useSession} from 'next-auth/client';
+import Link from 'next/link';
+import Form from '../components/SearchForm';
+import Modal from '../components/Modal';
 
-export default function Home({ isConnected }) {
+
+
+export const getServerSideProps = async () => {
+
+  const movieApi = process.env.TMDB_API_KEY;
+
+  const search_url = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieApi}&query=`)
+  const movie_search = await search_url.json();
+
+  const genre = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${movieApi}&language=en-US`)
+  const movie_genre = await genre.json();
+
+  const genreById = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${movieApi}&with_genres=`)
+  const movie_genre_by_id = await genreById.json();
+
+  const res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${movieApi}&page=1`)
+  const movie_data = await res.json();
+ 
+  return {
+    props: {
+      movies : movie_data,
+      genreData: movie_genre,
+      searchData: movie_search,
+      genreDataID: movie_genre_by_id
+    },
+  }
+}
+
+
+export default function Home({movies, genreData, movie_genre_by_id}) {
+  console.log(genreData)
+  
+  const [session, loading] = useSession();
+
+  const tmdbMpviesResults = movies.results;
+
+  const movieGenre = genreData.genres;
+  // const movieby_id = movie_genre_by_id.
+
   return (
-    <div className="container">
+    <div className="px-10 mt-10">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>MoodFlics</title>
+        <meta name="keywords" content="..." ></meta>
+        <link className="rounded-full" rel="icon" href="/favicon.ico" />
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
       </Head>
+      <div>
+      <div className="mx-auto bg-white">
+        <div className="relative overflow-hidden">
+                <main className="bg-gradient-to-r from-gray-700 via-gray-800 to-black">
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
-        </h1>
+                  {/* Jumbotron */}
+                  <div className="pt-10 bg-gray-900 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
+                    <div className="mx-auto max-w-7xl lg:px-8">
+                      <div className="lg:grid lg:grid-cols-2 lg:gap-8">
+                        <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
+                          <div className="lg:py-24">
+                            <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
+                              <span className="block">Watch movies, TV, and Stream contents based on how you feel</span>
+                            </h1>
+                            <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                              {/* <Weather /> */}
+                            </p>
+                            <div className="mt-10 sm:mt-12">
+                              <Form moviesbyid= {movie_genre_by_id} genreOnPush= {movieGenre} />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-12 -mb-16 sm:-mb-48 lg:m-0 lg:relative">
+                          <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0 img-div">
+                            <img className="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none hero-image" src="/watch.jpg" alt="watch" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Movie recommendation  Section ↓  */}
 
-        {isConnected ? (
-          <h2 className="subtitle">You are connected to MongoDB</h2>
-        ) : (
-          <h2 className="subtitle">
-            You are NOT connected to MongoDB. Check the <code>README.md</code>{' '}
-            for instructions.
-          </h2>
-        )}
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .subtitle {
-          font-size: 2rem;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
+                  <div  id="moviedisplay" className="mt-8 grid lg:grid-cols-4 gap-10 bg-gradient-to-r from-gray-700 via-gray-800 to-black">
+                    
+                  {tmdbMpviesResults.map(result => {
+                      return (
+                      <div key={result.id} className="movie-card">
+                      <div className="card">
+                          <img src={`https://image.tmdb.org/t/p/w1280/${result.poster_path}`} alt={result.title} className="group-hover:opacity-75 object-cover pointer-events-none mov-image h-full w-full" />
+                          <div>
+                          <p className="p-4">
+                          <Link  href={`/movies/${result.id}`}><a className="font-extrabold text-gray-50">{`Title: ${result.title}`}</a></Link><br/>
+                          <span className="text-gray-50">{`Popularity: ${result.popularity}`}</span><br/>
+                          <span className="truncate text-gray-50 line-clamp-2">{result.overview}</span><br/>
+                          </p>
+                          <Modal title={result.title} overview={result.overview} poster_path={result.poster_path} />
+                          </div>
+                      </div>
+                      </div>
+                      )
+                      })}
+                  </div>
+                </main>
+              </div>
+            </div>
+      </div>
     </div>
   )
 }
 
-export async function getServerSideProps(context) {
-  const { client } = await connectToDatabase()
 
-  const isConnected = await client.isConnected()
+// export async function getServerSideProps(context) {
+//   const { db } = await connectToDatabase()
 
-  return {
-    props: { isConnected },
-  }
-}
+//   //Add 'data' from server API
+
+//   // const returnedData = JSON.parse(JSON.stringify(APIdata));
+
+//   return {
+//     // props: { returnedData: returnedData }, db data from serverside
+//   }
+// }
