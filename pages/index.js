@@ -13,8 +13,8 @@ export const getServerSideProps = async () => {
   const search_url = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieApi}&query=`)
   const movie_search = await search_url.json();
 
-  const genre = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${movieApi}&language=en-US`)
-  const movie_genre = await genre.json();
+  // const genre = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${movieApi}&language=en-US`)
+  // const movie_genre = await genre.json();
 
   const genreById = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${movieApi}&with_genres=`)
   const movie_genre_by_id = await genreById.json();
@@ -25,7 +25,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       movies : movie_data,
-      genreData: movie_genre,
+      // genreData: movie_genre,
       searchData: movie_search,
       genreDataID: movie_genre_by_id
     },
@@ -38,7 +38,7 @@ export default function Home({movies, genreData, movie_genre_by_id}) {
 
   const tmdbMpviesResults = movies.results;
 
-  const movieGenre = genreData.genres;
+  // const movieGenre = genreData.genres;
   // const movieby_id = movie_genre_by_id.
 
   return (
@@ -67,7 +67,7 @@ export default function Home({movies, genreData, movie_genre_by_id}) {
                               {/* <Weather /> */}
                             </p>
                             <div className="mt-10 sm:mt-12">
-                              <Form moviesbyid= {movie_genre_by_id} genreOnPush= {movieGenre} />
+                              {/* <Form moviesbyid= {movie_genre_by_id} genreOnPush= {movieGenre} /> */}
                             </div>
                           </div>
                         </div>
