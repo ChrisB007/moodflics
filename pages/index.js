@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import React from 'react';
-import {signIn, signOut, useSession} from 'next-auth/client';
 import Link from 'next/link';
 import Form from '../components/SearchForm';
 import Modal from '../components/Modal';
@@ -36,8 +35,6 @@ export const getServerSideProps = async () => {
 
 export default function Home({movies, genreData, movie_genre_by_id}) {
   console.log(genreData)
-  
-  const [session, loading] = useSession();
 
   const tmdbMpviesResults = movies.results;
 

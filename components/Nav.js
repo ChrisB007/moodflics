@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import styles from '../styles/Home.module.css';
-import { useUser } from '@auth0/nextjs-auth0';
 
 
 
@@ -8,40 +7,40 @@ import { useUser } from '@auth0/nextjs-auth0';
 const Nav = () => {
 
   
-    const { user, error, isLoading } = useUser();
+    // const { user, error, isLoading } = useUser();
   
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>{error.message}</div>;
+    // if (isLoading) return <div>Loading...</div>;
+    // if (error) return <div>{error.message}</div>;
   
-    if (user) {
-      return (
-        <>
-        <div className="authnav flex justify-items-center items-center w-full">
-        <Link href="/">
-            <a><span className="logoname mx-8">mOOdFlics</span></a>
-          </Link>
-        </div>
-        <div className="authnav flex justify-items-center items-center w-full justify-end">
-          <span className="text-white flex justify-items-end space-x-4 mx-8">
-            Welcome {user.name}! <img className="rounded-full h-12 w-12" src={user.picture} alt={user.name} />
-            <Link href="/profile">
-              <a className="flex space-x-8 mx-8" >Edit Profile</a>
-            </Link>
-            <Link href="/api/auth/logout">
-              <a className="flex space-x-8 mx-8" >Logout</a>
-            </Link>
-          </span>
-        </div>
-        </>
-      );
-    }
+    // if (user) {
+    //   return (
+    //     <>
+    //     <div className="authnav flex justify-items-center items-center w-full">
+    //     <Link href="/">
+    //         <a><span className="logoname mx-8">mOOdFlics</span></a>
+    //       </Link>
+    //     </div>
+    //     <div className="authnav flex justify-items-center items-center w-full justify-end">
+    //       <span className="text-white flex justify-items-end space-x-4 mx-8">
+    //         Welcome {user.name}! <img className="rounded-full h-12 w-12" src={user.picture} alt={user.name} />
+    //         <Link href="/profile">
+    //           <a className="flex space-x-8 mx-8" >Edit Profile</a>
+    //         </Link>
+    //         <Link href="/api/auth/logout">
+    //           <a className="flex space-x-8 mx-8" >Logout</a>
+    //         </Link>
+    //       </span>
+    //     </div>
+    //     </>
+    //   );
+    // }
   
-    return <div className="authnav flex justify-items-center items-center w-full ">
-      <Link href="/">
-        <a><span className="logoname mx-8">mOOdFlics</span></a>
-      </Link>
-      <a href="/api/auth/login" id="applogin"  className="text-white flex justify-items-end space-x-4">Login</a>;
-    </div>
+    // return <div className="authnav flex justify-items-center items-center w-full ">
+    //   <Link href="/">
+    //     <a><span className="logoname mx-8">mOOdFlics</span></a>
+    //   </Link>
+    //   <a href="/api/auth/login" id="applogin"  className="text-white flex justify-items-end space-x-4">Login</a>;
+    // </div>
    
   
     return (
@@ -69,9 +68,9 @@ const Nav = () => {
 
           </div>
           <div className="hidden md:flex md:items-center md:space-x-6">
-            <button onClick={
+            {/* <button onClick={
               authentication
-            }></button>
+            }></button> */}
             
             {/* <Link href="/api/auth/login">
               <a  className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
