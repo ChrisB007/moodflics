@@ -8,7 +8,7 @@ import Modal from '../components/Modal';
 
 export const getServerSideProps = async () => {
 
-  const movieApi = process.env.TMDB_API_KEY;
+  const movieApi = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
   const search_url = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieApi}&query=`)
   const movie_search = await search_url.json();
