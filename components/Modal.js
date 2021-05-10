@@ -51,7 +51,7 @@ export default function Modal(props) {
                   >
                     Close
                   </button>
-                  <Link href="/api/auth/login"className="flex">
+                  <Link href="#"className="flex">
                     <a className="text-white h-10 bg-gray-800 w-32 flex justify-center items-center">Refine result</a>
                   </Link>
                 </div>
