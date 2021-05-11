@@ -52,7 +52,7 @@ export default function Home({movies, genreData, movie_genre_by_id}) {
       <div>
       <div className="mx-auto bg-white">
         <div className="relative overflow-hidden">
-                <main className="bg-gradient-to-r from-gray-900 via-gray-800 to-black">
+                <main className="bg-gradient-to-r from-gray-700 via-gray-800 to-black">
 
                   {/* Jumbotron */}
                   <div className="pt-10 bg-gray-900 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
